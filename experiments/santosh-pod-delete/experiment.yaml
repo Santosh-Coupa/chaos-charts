@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   name: argowf-chaos-santosh-pod-delete
-  namespace: litmus
+  namespace: litmustool-chaos-cqe-qas
   labels:
     subject: "{{workflow.parameters.appNamespace}}_kube-proxy"
 spec:
