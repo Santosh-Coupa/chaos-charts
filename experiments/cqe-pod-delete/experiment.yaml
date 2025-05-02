@@ -31,7 +31,7 @@ spec:
       inputs:
         artifacts:
           - name: install-chaos-faults
-            path: /tmp/pod-delete.yaml
+            path: /tmp/.yaml
             raw:
               data: |
                 apiVersion: litmuschaos.io/v1alpha1
@@ -40,7 +40,7 @@ spec:
                     Deletes a pod belonging to a deployment/statefulset/daemonset
                 kind: ChaosExperiment
                 metadata:
-                  name: pod-delete
+                  name: cqe-pod-delete
                 spec:
                   definition:
                     scope: Namespaced
