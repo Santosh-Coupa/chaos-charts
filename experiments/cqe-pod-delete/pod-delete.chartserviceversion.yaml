@@ -5,7 +5,7 @@ metadata:
   name: pod-delete
   version: 0.1.0
   annotations:
-    categories: pod-delete
+    categories: cqe-pod-delete
     chartDescription: Pod delete fault disrupts the state of Kubernetes resources. This fault injects random pod delete failures against specified application.
 spec:
   displayName: Pod Delete
