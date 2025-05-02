@@ -134,7 +134,7 @@ spec:
                   engineState: 'active'
                   chaosServiceAccount: litmus-admin
                   experiments:
-                    - name: pod-delete
+                    - name: cqe-pod-delete
                       spec:
                         components:
                           env:
