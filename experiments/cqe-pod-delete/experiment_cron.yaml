@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: argo-chaos-pod-delete-cron-wf
+  name: argo-chaos-cqe-pod-delete-cron-wf
   namespace: litmus
   labels:
     subject: "{{workflow.parameters.appNamespace}}_kube-proxy"
@@ -35,7 +35,7 @@ spec:
         inputs:
           artifacts:
             - name: install-chaos-faults
-              path: /tmp/pod-delete.yaml
+              path: /tmp/cqe-pod-delete.yaml
               raw:
                 data: |
                   apiVersion: litmuschaos.io/v1alpha1
@@ -44,7 +44,7 @@ spec:
                       Deletes a pod belonging to a deployment/statefulset/daemonset
                   kind: ChaosExperiment
                   metadata:
-                    name: pod-delete
+                    name: cqe-pod-delete
                   spec:
                     definition:
                       scope: Namespaced
@@ -82,7 +82,7 @@ spec:
                       imagePullPolicy: Always
                       args:
                       - -c
-                      - ./experiments -name pod-delete
+                      - ./experiments -name cqe-pod-delete
                       command:
                       - /bin/bash
                       env:
@@ -105,13 +105,13 @@ spec:
                         value: '5'
 
                       labels:
-                        name: pod-delete
+                        name: cqe-pod-delete
         container:
           image: litmuschaos/k8s:latest
           command: [sh, -c]
           args:
             [
-              "kubectl apply -f /tmp/pod-delete.yaml -n {{workflow.parameters.adminModeNamespace}}",
+              "kubectl apply -f /tmp/cqe-pod-delete.yaml -n {{workflow.parameters.adminModeNamespace}}",
             ]
 
       - name: run-chaos
@@ -124,7 +124,7 @@ spec:
                   apiVersion: litmuschaos.io/v1alpha1
                   kind: ChaosEngine
                   metadata:
-                    name: kube-proxy-pod-delete-chaos
+                    name: kube-proxy-cqe-pod-delete-chaos
                     namespace: "{{workflow.parameters.adminModeNamespace}}"
                     labels:
                       context: "{{workflow.parameters.appNamespace}}_kube-proxy"
@@ -138,7 +138,7 @@ spec:
                     engineState: 'active'
                     chaosServiceAccount: litmus-admin
                     experiments:
-                      - name: pod-delete
+                      - name: cqe-pod-delete
                         spec:
                           components:
                             env:
@@ -158,5 +158,5 @@ spec:
           command: [sh, -c]
           args:
             [
-              "kubectl delete chaosengine kube-proxy-pod-delete-chaos -n {{workflow.parameters.adminModeNamespace}}",
+              "kubectl delete chaosengine kube-proxy-cqe-pod-delete-chaos -n {{workflow.parameters.adminModeNamespace}}",
             ]
